@@ -1,11 +1,10 @@
 if(not exists(select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='orderitem' and COLUMN_NAME='isnonsupport'))
 begin
+	alter table orderitem add isnonsupport smallint;
+end
 
-exec('
-alter table orderitem add isnonsupport smallint;
-')
+GO-----
 
-exec('
 ALTER view [dbo].[view_orderitem] as
 select oi.*,
 				m.name AS model_name, 
@@ -70,8 +69,5 @@ select oi.*,
 				-- measure me on (me.idmeasure = isnull(g.idmeasure,pt.idmeasure)) 
 				-- ед. изменения сначала из продукции, а потом только из материала
 				measure me on (me.idmeasure = isnull((select pt1.idmeasure from productiontype pt1 where pt1.idproductiontype = oi.typ), g.idmeasure))
-')
-
-end
-
+				
 GO-----
