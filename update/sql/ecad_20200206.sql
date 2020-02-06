@@ -1,3 +1,4 @@
+exec('
 ALTER view [dbo].[view_orderitem_pc_good]
 as
 SELECT oi.*,
@@ -7,7 +8,7 @@ SELECT oi.*,
 	 me.typ measure_typ,
 	 case when (oi.idgood is not null)
 			then me.shortname
-		  else 'шт'
+		  else ''шт''
 	 end measure_shortname,
 	me.factor measure_factor,
 	gt.name goodtype_name,
@@ -39,5 +40,6 @@ left join goodtype gt on (gt.idgoodtype = g.idgoodtype)
 left join measure me on (me.idmeasure = g.idmeasure)
 LEFT JOIN model m ON (m.idmodel = oi.idmodel)
 
+')
 
-GO
+GO-----
